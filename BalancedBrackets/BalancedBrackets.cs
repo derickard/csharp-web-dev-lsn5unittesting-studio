@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Data.SqlTypes;
+using System.Text.RegularExpressions;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BalancedBracketsNS
 {
@@ -23,21 +27,54 @@ namespace BalancedBracketsNS
          * parameter str - to be validated
          * returns true if balanced, false otherwise
         */
-        public static bool HasBalancedBrackets(String str)
+        public static bool HasBalancedBrackets(string str)
         {
-            int brackets = 0;
+            int openBrackets = 0;
+            int closeBrackets = 0;
             foreach (char ch in str.ToCharArray())
             {
                 if (ch == '[')
                 {
-                    brackets++;
+                    openBrackets++;
                 }
                 else if (ch == ']')
                 {
-                    brackets--;
+                    if(openBrackets == 0)
+                    {
+                        return false;
+                    }
+                    closeBrackets++;
                 }
             }
-            return brackets == 0;
+            return openBrackets == closeBrackets;
         }
+
+        //public static bool HasBalancedBrackets(string str)
+        //{
+        //    List<string> listMatch = new List<string>();
+
+        //    if (str.Length > 0)
+        //    {
+        //        // Get all brackets into an list
+        //        var arr = Regex.Matches(str, @"[\[\]]").OfType<Match>().Select(m => m.Groups[0].Value).ToArray();
+        //        listMatch = arr.ToList();
+
+        //        // No brackets returns true
+        //        if(listMatch.Count == 0)
+        //        {
+        //            return true;
+        //        }
+
+        //        // Make sure first bracket is opening bracket
+        //        List<string> distinct = listMatch.Distinct().ToList();
+
+        //        return listMatch.Count % 2 == 0 && Equals(distinct[0], "[");
+        //    }
+        //    else
+        //    {
+        //        return true;
+        //    }
+        //}
+
     }
 }
